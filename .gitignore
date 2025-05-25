@@ -1,0 +1,27 @@
+# Archivos de notas
+notes.txt
+
+# Directorios de vistas
+/vistas
+
+# Dependencias de Node.js
+/node_modules
+
+# Archivos de entorno
+.env
+
+# Archivos de configuración específicos del editor
+.vscode/
+
+# Archivos de registro
+*.log
+
+# Archivos de compilación y caché
+dist/
+build/
+*.cache
+
+# Archivos temporales y de sistema
+*.tmp
+*.swp
+*.DS_Store
