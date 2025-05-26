@@ -159,10 +159,7 @@ img {
   overflow-x: hidden;
   align-items: stretch;
 }
-.article--product {
-  border: 1px solid #ccc;
-  
-}
+
 .product--img {
   background-color: #f7f8fa;
   display: flex;
@@ -182,4 +179,138 @@ img {
 }
 .product--info {
   padding: 0.5rem;
+}
+
+/* Carousel styles for New Watches */
+.carousel {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.carousel__viewport {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  scrollbar-width: none; /* Firefox */
+  padding-left: 0;
+  margin-left: 0;
+  list-style: none;
+}
+.carousel__viewport::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.carousel__slide {
+  flex: 0 0 80%;
+  max-width: 350px;
+  min-width: 220px;
+  scroll-snap-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 600px) {
+  .carousel__slide {
+    flex: 0 0 40%;
+  }
+}
+@media (min-width: 900px) {
+  .carousel__slide {
+    flex: 0 0 25%;
+  }
+}
+
+/* Opcional: mejora visual para las tarjetas */
+.article--product {
+  background: #fff;
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 8px #0001; */
+  transition: transform 0.2s;
+}
+.article--product:hover {
+  transform: scale(1.03);
+}
+
+/* Hero Carousel Styles */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.hero-carousel-track {
+  position: relative;
+  width: 100%;
+  min-height: 85dvh;
+}
+.hero-slide {
+  width: 100%;
+  min-height: 85dvh;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(.4,0,.2,1);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 2;
+  pointer-events: auto;
+}
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.7);
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 3;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-arrow-left {
+  left: 1rem;
+}
+.hero-arrow-right {
+  right: 1rem;
+}
+.hero-radio-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.hero-radio-buttons .material-symbols-outlined {
+  font-size: 2rem;
+  cursor: pointer;
+}
+.hero-radio-buttons .material-symbols-outlined.checked {
+  /* color: #1976d2; */
+  font-size: 2.5rem;
+}
+.hero-radio-buttons .material-symbols-outlined.unchecked {
+  color: #bbb;
+  font-size: 2rem;
+}
+@media (max-width: 600px) {
+  .hero-slide {
+    height: 35vh;
+  }
 }
