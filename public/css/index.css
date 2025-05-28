@@ -21,11 +21,17 @@ body {
   border: 1px solid #ccc;
   padding-top: 5px;
   padding-bottom: 5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0,0,0,.5);
 }
-.header, .section--new_watches, .section--special_contents, .section--watch_brands {
+.header, .section--new_watches, .section--about_us {
   padding-left: var(--gap);
   padding-right: var(--gap);
 }
+
 .navbar {
   /* width: fit-content; */
   overflow: hidden;
@@ -71,7 +77,8 @@ body {
   background-color: #f9f9f9;
   min-width: 160px;
   /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
-  z-index: 1;
+  z-index: 10;
+  /* top: 0; */
 }
 
 .dropdown-content a {
@@ -112,7 +119,9 @@ body {
 }
 .arrow-left {
   left: 1rem;
+
 }
+
 .arrow-right {
   right: 1rem;
 } 
@@ -196,13 +205,23 @@ img {
   gap: 1rem;
   padding-bottom: 1rem;
   padding-top: 1rem;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #131313 #e0e0e0;
   padding-left: 0;
   margin-left: 0;
   list-style: none;
 }
 .carousel__viewport::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+.carousel__viewport::-webkit-scrollbar-thumb {
+  background: #1976d2;
+  border-radius: 4px;
+}
+.carousel__viewport::-webkit-scrollbar-thumb:hover {
+  background: #125ea2;
 }
 
 .carousel__slide {
@@ -313,4 +332,21 @@ img {
   .hero-slide {
     height: 35vh;
   }
+}
+
+.article--about_us {
+  display: flex;
+  gap: var(--gap);
+  /* border: 1px solid red; */
+}
+.article--about_us img {
+  /* border: 1px solid #ccc; */
+  max-width: 30%;
+}
+.article--about_us p {
+  line-height: 1.7;
+}
+
+.section--new_watches h2, .section--about_us h2 {
+  margin-bottom: 1.5rem;
 }
