@@ -37,4 +37,34 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   showSlide(0);
+
+  // Navegación lateral animada
+  const desktopNavbar = document.querySelector('.desktop-navbar');
+  const closeBtn = document.querySelector('.span--close');
+  const menuBtn = document.querySelector('.span--menu');
+
+  if (closeBtn && desktopNavbar) {
+    closeBtn.addEventListener('click', () => {
+      if (!desktopNavbar.classList.contains('closed')) {
+        desktopNavbar.classList.add('closed');
+      }
+    });
+  }
+
+  if (menuBtn && desktopNavbar) {
+    menuBtn.addEventListener('click', () => {
+      if (desktopNavbar.classList.contains('closed')) {
+        desktopNavbar.classList.remove('closed');
+        // Forzar reflow para que la transición funcione si estaba oculta
+        void desktopNavbar.offsetWidth;
+      }
+    });
+  }
+
+  // Asegurarse de que el menú esté oculto al cargar la página
+  if (desktopNavbar) {
+    desktopNavbar.classList.add('closed');
+  }
+
+  
 });
