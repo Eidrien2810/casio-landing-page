@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/views/index.html" }
-  ],
-  "public": "public"
-}
