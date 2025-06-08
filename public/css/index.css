@@ -29,7 +29,7 @@ body {
   background-color: white;
   box-shadow: 0 0 5px rgba(0,0,0,.5);
 }
-.header, .section--new_watches, .section--about_us, .footer {
+.header, .section--new_watches, .section--about_us, .footer, .section--discover {
   padding-left: var(--gap);
   padding-right: var(--gap);
 }
