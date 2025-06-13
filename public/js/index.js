@@ -65,6 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (desktopNavbar) {
     desktopNavbar.classList.add('closed');
   }
-
+  desktopNavbar.querySelectorAll('a').forEach(link => link.addEventListener('click', () => desktopNavbar.classList.add('closed')));
   
 });
