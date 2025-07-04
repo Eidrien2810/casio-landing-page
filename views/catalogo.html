@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Casio Watch Catalog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="../public/css/catalogo.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <a href="https://u-watches.netlify.app/">
+          <img src="../public/assets/images/logo.png" alt="logo" class="logo" />
+        </a>
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="#main">Filtros</a></li>
+            <li><a href="https://u-watches.netlify.app/">Indice</a></li>
+            <li><a href="/views/mision.html">Mision</a></li>
+            <li><a href="/views/vision.html">Vision</a></li>
+            <li><a href="/views/valores.html">Valores</a></li>
+          </ul>
+        </nav>
+        <div class="header-right">
+          <div class="search-box">
+            <form id="search-form">
+              <input
+                type="text"
+                id="search-input"
+                class="search-input"
+                placeholder="Search watches..."
+                autocomplete="off"
+              />
+              <button type="submit" class="search-btn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+          <button style="background: none; border: none; cursor: pointer">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Carousel Section -->
+    <section class="section--hero">
+      <div class="hero-carousel">
+        <button
+          class="hero-arrow hero-arrow-left"
+          aria-label="Anterior"
+          id="prev-slide"
+        >
+          <span class="material-symbols-outlined">arrow_back_ios</span>
+        </button>
+        <div class="hero-carousel-track">
+          <img
+            class="hero-slide active"
+            src="/public/assets/images/hero1.avif"
+            loading="lazy"
+            alt="Hero 1"
+          />
+          <img
+            class="hero-slide"
+            src="/public/assets/images/hero2.avif"
+            loading="lazy"
+            alt="Hero 2"
+          />
+          <img
+            class="hero-slide"
+            src="/public/assets/images/hero3.avif"
+            loading="lazy"
+            alt="Hero 3"
+          />
+          <img
+            class="hero-slide"
+            src="/public/assets/images/hero4.avif"
+            loading="lazy"
+            alt="Hero 4"
+          />
+          <img
+            class="hero-slide"
+            src="/public/assets/images/hero5.avif"
+            loading="lazy"
+            alt="Hero 5"
+          />
+          <img
+            class="hero-slide"
+            src="/public/assets/images/hero6.avif"
+            loading="lazy"
+            alt="Hero 6"
+          />
+        </div>
+        <button
+          class="hero-arrow hero-arrow-right"
+          aria-label="Siguiente"
+          id="next-slide"
+        >
+          <span class="material-symbols-outlined">arrow_forward_ios</span>
+        </button>
+        <div class="hero-radio-buttons" id="hero-indicators">
+          <span class="material-symbols-outlined checked" data-slide="0"
+            >radio_button_checked</span
+          >
+          <span class="material-symbols-outlined unchecked" data-slide="1"
+            >radio_button_unchecked</span
+          >
+          <span class="material-symbols-outlined unchecked" data-slide="2"
+            >radio_button_unchecked</span
+          >
+          <span class="material-symbols-outlined unchecked" data-slide="3"
+            >radio_button_unchecked</span
+          >
+          <span class="material-symbols-outlined unchecked" data-slide="4"
+            >radio_button_unchecked</span
+          >
+          <span class="material-symbols-outlined unchecked" data-slide="5"
+            >radio_button_unchecked</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="main-container" id="main">
+      <!-- Sticky Sidebar -->
+      <aside class="sidebar">
+        <!-- Sort Section -->
+        <div class="filter-section">
+          <h3 class="filter-title">Filtrar por</h3>
+          <div class="sort-options">
+            <div class="sort-option">
+              <input
+                type="radio"
+                id="newest"
+                name="sort"
+                value="newest"
+                checked
+              />
+              <label for="newest">Lo mas reciente</label>
+            </div>
+            <div class="sort-option">
+              <input
+                type="radio"
+                id="price-high-low"
+                name="sort"
+                value="price-high-low"
+              />
+              <label for="price-high-low">Precio:Alto-Bajo</label>
+            </div>
+            <div class="sort-option">
+              <input
+                type="radio"
+                id="price-low-high"
+                name="sort"
+                value="price-low-high"
+              />
+              <label for="price-low-high">Precio:Bajo-Alto</label>
+            </div>
+            <div class="sort-option">
+              <input
+                type="radio"
+                id="weight-heavy-light"
+                name="sort"
+                value="weight-heavy-light"
+              />
+              <label for="weight-heavy-light">Peso:Pesado-Ligero</label>
+            </div>
+            <div class="sort-option">
+              <input
+                type="radio"
+                id="weight-light-heavy"
+                name="sort"
+                value="weight-light-heavy"
+              />
+              <label for="weight-light-heavy">Peso:Ligero-Pesado</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Release Month Section -->
+        <div class="filter-section">
+          <h3 class="filter-title">Release Month</h3>
+          <select class="release-month-select" id="release-month">
+            <option value="">--</option>
+            <option value="january">Enero</option>
+            <option value="february">Febrero</option>
+            <option value="march">Marzo</option>
+            <option value="april">Abril</option>
+            <option value="may">Mayo</option>
+            <option value="june">Junio</option>
+            <option value="july">Julio</option>
+            <option value="august">Agosto</option>
+            <option value="september">Septiembre</option>
+            <option value="october">Octubre</option>
+            <option value="november">Noviembre</option>
+            <option value="december">Diciembre</option>
+          </select>
+        </div>
+
+        <!-- Brand Series Section -->
+        <div class="filter-section">
+          <div class="brand-series-header" id="brand-series-toggle">
+            <h3 class="filter-title">Brand Series</h3>
+            <span class="brand-series-toggle" id="brand-toggle">−</span>
+          </div>
+          <div class="brand-options" id="brand-series-content">
+            <!-- Will be populated from JSON data -->
+          </div>
+        </div>
+
+        <!-- Bezel Color Section -->
+        <div class="filter-section">
+          <div class="bezel-color-header" id="bezel-color-toggle">
+            <h3 class="filter-title">Bezel color</h3>
+            <span class="bezel-color-toggle" id="bezel-toggle">−</span>
+          </div>
+          <div class="color-grid" id="bezel-color-content">
+            <div class="color-option" data-color="black">
+              <div
+                class="color-square"
+                style="background-color: #000000"
+                data-color="black"
+              ></div>
+              <span class="color-label">Black</span>
+            </div>
+            <div class="color-option" data-color="blue">
+              <div
+                class="color-square"
+                style="background-color: #4a90e2"
+                data-color="blue"
+              ></div>
+              <span class="color-label">Blue</span>
+            </div>
+            <div class="color-option" data-color="green">
+              <div
+                class="color-square"
+                style="background-color: #7ed321"
+                data-color="green"
+              ></div>
+              <span class="color-label">Green</span>
+            </div>
+            <div class="color-option" data-color="red">
+              <div
+                class="color-square"
+                style="background-color: #d0021b"
+                data-color="red"
+              ></div>
+              <span class="color-label">Red</span>
+            </div>
+            <div class="color-option" data-color="brown">
+              <div
+                class="color-square"
+                style="background-color: #8b4513"
+                data-color="brown"
+              ></div>
+              <span class="color-label">Brown</span>
+            </div>
+            <div class="color-option" data-color="beige">
+              <div
+                class="color-square"
+                style="background-color: #f5f5dc"
+                data-color="beige"
+              ></div>
+              <span class="color-label">Beige</span>
+            </div>
+            <div class="color-option" data-color="purple">
+              <div
+                class="color-square"
+                style="background-color: #9013fe"
+                data-color="purple"
+              ></div>
+              <span class="color-label">Purple</span>
+            </div>
+            <div class="color-option" data-color="white">
+              <div
+                class="color-square"
+                style="background-color: #ffffff"
+                data-color="white"
+              ></div>
+              <span class="color-label">White</span>
+            </div>
+            <div class="color-option" data-color="gray">
+              <div
+                class="color-square"
+                style="background-color: #9b9b9b"
+                data-color="gray"
+              ></div>
+              <span class="color-label">Gray</span>
+            </div>
+            <div class="color-option" data-color="yellow">
+              <div
+                class="color-square"
+                style="background-color: #f8e71c"
+                data-color="yellow"
+              ></div>
+              <span class="color-label">Yellow</span>
+            </div>
+            <div class="color-option" data-color="orange">
+              <div
+                class="color-square"
+                style="background-color: #ff8c00"
+                data-color="orange"
+              ></div>
+              <span class="color-label">Orange</span>
+            </div>
+            <div class="color-option" data-color="pink">
+              <div
+                class="color-square"
+                style="background-color: #ffb6c1"
+                data-color="pink"
+              ></div>
+              <span class="color-label">Pink</span>
+            </div>
+            <div class="color-option" data-color="skeleton">
+              <div class="color-square skeleton" data-color="skeleton"></div>
+              <span class="color-label">Skeleton</span>
+            </div>
+            <div class="color-option" data-color="silver">
+              <div
+                class="color-square"
+                style="background-color: #c0c0c0"
+                data-color="silver"
+              ></div>
+              <span class="color-label">Silver</span>
+            </div>
+            <div class="color-option" data-color="gold">
+              <div
+                class="color-square"
+                style="background-color: #ffd700"
+                data-color="gold"
+              ></div>
+              <span class="color-label">Gold</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional JSON-based filters -->
+        <div class="standard-filter">
+          <label for="filtro-marca">Marca</label>
+          <select id="filtro-marca">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div class="standard-filter">
+          <label for="filtro-categoria">Categoría</label>
+          <select id="filtro-categoria">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div class="standard-filter">
+          <label for="filtro-material">Material</label>
+          <select id="filtro-material">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <div class="standard-filter">
+          <label>Precio</label>
+          <div class="price-range">
+            <input type="number" id="filtro-precio-min" placeholder="Min" />
+            <span>-</span>
+            <input type="number" id="filtro-precio-max" placeholder="Max" />
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="content-header">
+          <p class="content-subtitle">Forged carbon</p>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+          <!-- Products will be dynamically inserted here -->
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../public/js/catalogo.js"></script>
+    <script src="../public/js/hero-carousel.js"></script>
+  </body>
+</html>

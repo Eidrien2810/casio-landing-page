@@ -1,0 +1,21 @@
+### lista de comprobantes
+# GET http://localhost:1234/api/comprobantes
+
+### lista de contribuyentes
+# GET http://localhost:1234/api/contribuyentes
+
+### Enviar contribuyente
+# POST http://localhost:1234/api/contribuyentes
+# Content-Type: application/json
+
+# {
+#   "RncCedula": "12345678910",
+#   "Nombre": "Jesus",
+#   "Apellido": "Guerrero",
+#   "Tipo": "Persona fisica",
+#   "Estatus": "Inactivo",
+#   "Telefono": "8095025557",
+#   "Email": "jesus.guerrero@example.com",
+#   "FechaRegistro": "2000-01-05T00:00:00.000Z",
+#   "DireccionId": 2
+# }
