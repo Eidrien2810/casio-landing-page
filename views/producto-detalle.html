@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto - CASIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../public/css/producto-detalle.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="catalogo.html" class="logo">CASIO</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="catalogo.html">Catalogo</a></li>
+                    <li><a href="https://u-watches.netlify.app/#nuevos_relojes">Nuevos relojes</a></li>
+                    <li><a href="https://u-watches.netlify.app/views/mision">Mision</a></li>
+                    <li><a href="https://u-watches.netlify.app/views/vision">Vision</a></li>
+                    <li><a href="https://u-watches.netlify.app/views/valores">Valores</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <button class="back-btn" onclick="window.history.back()">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Volver
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="catalogo.html">Catálogo</a>
+            <span class="breadcrumb-separator">></span>
+            <span id="breadcrumb-category">Relojes</span>
+            <span class="breadcrumb-separator">></span>
+            <span id="breadcrumb-product">Producto</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="product-detail-container">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="main-image-container">
+                    <img id="main-product-image" src="/placeholder.svg" alt="" class="main-product-image">
+                    <button class="favorite-btn-detail" id="favorite-btn-detail">
+                        <svg class="favorite-icon" viewBox="0 0 24 24">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </button>
+                    <div class="zoom-indicator">
+                        <span class="material-symbols-outlined">zoom_in</span>
+                        Hacer clic para ampliar
+                    </div>
+                </div>
+                <div class="thumbnail-images" id="thumbnail-images">
+                    <!-- Thumbnails will be populated here -->
+                </div>
+            </div>
+
+            <!-- Product Information -->
+            <div class="product-info-detail">
+                <div class="product-header">
+                    <div class="product-brand-detail" id="product-brand-detail">CASIO</div>
+                    <h1 class="product-title" id="product-title">Nombre del Producto</h1>
+                    <div class="product-code" id="product-code">Código: </div>
+                </div>
+
+                <div class="product-price-section">
+                    <div class="price-container">
+                        <span class="current-price" id="current-price">$0.00</span>
+                        <span class="original-price" id="original-price">$0.00</span>
+                        <span class="discount-badge" id="discount-badge">-20%</span>
+                    </div>
+                    <div class="availability" id="availability">
+                        <span class="availability-status">En stock</span>
+                    </div>
+                </div>
+
+                <div class="product-description">
+                    <h3>Descripción</h3>
+                    <p id="product-description-text">Descripción del producto...</p>
+                </div>
+
+                <div class="product-specifications">
+                    <h3>Especificaciones</h3>
+                    <div class="specs-grid" id="specs-grid">
+                        <!-- Specifications will be populated here -->
+                    </div>
+                </div>
+
+                <div class="product-features">
+                    <h3>Características</h3>
+                    <ul id="product-features-list">
+                        <!-- Features will be populated here -->
+                    </ul>
+                </div>
+
+                <div class="product-actions">
+                    <div class="quantity-selector">
+                        <label for="quantity">Cantidad:</label>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10">
+                            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-primary" id="add-to-cart">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                            Agregar al Carrito
+                        </button>
+                        <button class="btn-secondary" id="buy-now">
+                            <span class="material-symbols-outlined">flash_on</span>
+                            Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-warranty">
+                    <div class="warranty-item">
+                        <span class="material-symbols-outlined">verified</span>
+                        <div>
+                            <strong>Garantía Oficial</strong>
+                            <p>2 años de garantía internacional</p>
+                        </div>
+                    </div>
+                    <div class="warranty-item">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                        <div>
+                            <strong>Envío Gratis</strong>
+                            <p>En compras mayores a $50</p>
+                        </div>
+                    </div>
+                    <div class="warranty-item">
+                        <span class="material-symbols-outlined">autorenew</span>
+                        <div>
+                            <strong>Devoluciones</strong>
+                            <p>30 días para devoluciones</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information Tabs -->
+        <div class="product-tabs">
+            <div class="tab-headers">
+                <button class="tab-header active" data-tab="details">Detalles Técnicos</button>
+                <button class="tab-header" data-tab="reviews">Reseñas</button>
+                <button class="tab-header" data-tab="shipping">Envío y Devoluciones</button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-panel active" id="details-panel">
+                    <div class="technical-details" id="technical-details">
+                        <!-- Technical details will be populated here -->
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="reviews-panel">
+                    <div class="reviews-section">
+                        <div class="reviews-summary">
+                            <div class="rating-overview">
+                                <div class="average-rating">4.5</div>
+                                <div class="stars">★★★★☆</div>
+                                <div class="rating-count">Basado en 127 reseñas</div>
+                            </div>
+                        </div>
+                        <div class="reviews-list">
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div class="reviewer-name">Juan Pérez</div>
+                                    <div class="review-rating">★★★★★</div>
+                                    <div class="review-date">15 de Enero, 2024</div>
+                                </div>
+                                <div class="review-text">
+                                    Excelente reloj, muy buena calidad y diseño. Lo recomiendo totalmente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="shipping-panel">
+                    <div class="shipping-info">
+                        <h4>Información de Envío</h4>
+                        <ul>
+                            <li>Envío gratis en compras mayores a $50</li>
+                            <li>Entrega en 2-5 días hábiles</li>
+                            <li>Seguimiento en tiempo real</li>
+                        </ul>
+                        
+                        <h4>Política de Devoluciones</h4>
+                        <ul>
+                            <li>30 días para devoluciones</li>
+                            <li>Producto debe estar en condiciones originales</li>
+                            <li>Reembolso completo garantizado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-products">
+            <h3>Productos Relacionados</h3>
+            <div class="related-products-grid" id="related-products-grid">
+                <!-- Related products will be populated here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="image-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeImageModal()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <img id="modal-image" src="/placeholder.svg" alt="">
+            <div class="modal-navigation">
+                <button class="modal-nav-btn" id="modal-prev">
+                    <span class="material-symbols-outlined">arrow_back_ios</span>
+                </button>
+                <button class="modal-nav-btn" id="modal-next">
+                    <span class="material-symbols-outlined">arrow_forward_ios</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../public/js/producto-detalle.js"></script>
+</body>
+</html>

@@ -225,24 +225,26 @@ class CatalogoApp {
       const displayBrand = producto.marca || "CASIO"
       const displayName = producto.nombre || "Sin nombre"
 
+      const productId = producto.id || `temp_${productos.indexOf(producto)}`
+
       card.innerHTML = `
-        <div class="product-image-container">
-          <img src="${producto.imagen_principal || "https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image"}" 
-               alt="${displayName}" 
-               class="product-image"
-               onerror="this.src='https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image'">
-          <button class="favorite-btn" onclick="catalogoApp.toggleFavorite('${producto.id || Math.random()}')">
-            <svg class="favorite-icon" viewBox="0 0 24 24">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
-          </button>
-          ${Math.random() > 0.6 ? '<div class="new-badge">NEW</div>' : ""}
-        </div>
-        <div class="product-info">
-          <div class="product-brand">${displayBrand.toUpperCase()}</div>
-          <div class="product-model">${displayName}</div>
-        </div>
-      `
+  <div class="product-image-container" onclick="catalogoApp.openProductDetail('${productId}')">
+    <img src="${producto.imagen_principal || "https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image"}" 
+         alt="${displayName}" 
+         class="product-image"
+         onerror="this.src='https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image'">
+    <button class="favorite-btn" onclick="event.stopPropagation(); catalogoApp.toggleFavorite('${productId}')">
+      <svg class="favorite-icon" viewBox="0 0 24 24">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    </button>
+    ${Math.random() > 0.6 ? '<div class="new-badge">NEW</div>' : ""}
+  </div>
+  <div class="product-info" onclick="catalogoApp.openProductDetail('${productId}')">
+    <div class="product-brand">${displayBrand.toUpperCase()}</div>
+    <div class="product-model">${displayName}</div>
+  </div>
+`
       productosContainer.appendChild(card)
     })
 
@@ -616,6 +618,30 @@ class CatalogoApp {
         this.hideSearchResults()
       }
     })
+  }
+
+  openProductDetail(productId) {
+    let producto
+
+    // Si es un ID temporal, buscar por índice
+    if (productId.startsWith("temp_")) {
+      const index = Number.parseInt(productId.replace("temp_", ""))
+      producto = productosFiltrados[index]
+    } else {
+      // Buscar por ID normal
+      producto = productos.find((p) => String(p.id) === String(productId))
+    }
+
+    if (!producto) {
+      console.error("Producto no encontrado:", productId)
+      return
+    }
+
+    // Guardar el producto en localStorage para la página de detalles
+    localStorage.setItem("selectedProduct", JSON.stringify(producto))
+
+    // Navegar a la página de detalles
+    window.location.href = "producto-detalle.html"
   }
 }
 
