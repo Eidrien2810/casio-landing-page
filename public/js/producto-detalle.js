@@ -4,7 +4,8 @@ class ProductDetailApp {
     this.currentImageIndex = 0
     this.productImages = []
     this.quantity = 1
-    this.favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+    // Cargar favoritos de forma más robusta
+    this.loadFavoritesFromStorage()
 
     this.init()
   }
@@ -14,6 +15,7 @@ class ProductDetailApp {
     await this.loadProduct()
     this.setupEventListeners()
     this.setupTabs()
+    this.updateFavoritesCount() // Agregar esta línea
   }
 
   async loadProduct() {
@@ -386,24 +388,43 @@ class ProductDetailApp {
     // window.location.href = 'checkout.html'
   }
 
+  loadFavoritesFromStorage() {
+    try {
+      const storedFavorites = localStorage.getItem("favorites")
+      this.favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+      console.log("Favoritos cargados en página de detalles:", this.favorites)
+    } catch (error) {
+      console.error("Error al cargar favoritos:", error)
+      this.favorites = []
+    }
+  }
+
   toggleFavorite() {
-    const productId = this.product.id
+    // Recargar favoritos desde localStorage antes de modificar
+    this.loadFavoritesFromStorage()
+
+    const productId = this.getConsistentProductId(this.product)
     const favoriteBtn = document.getElementById("favorite-btn-detail")
 
     if (this.favorites.includes(productId)) {
       this.favorites = this.favorites.filter((id) => id !== productId)
       favoriteBtn.classList.remove("active")
+      console.log("Producto eliminado de favoritos:", productId)
     } else {
       this.favorites.push(productId)
       favoriteBtn.classList.add("active")
+      console.log("Producto agregado a favoritos:", productId)
     }
 
     localStorage.setItem("favorites", JSON.stringify(this.favorites))
+    console.log("Favoritos actualizados:", this.favorites)
+    this.updateFavoritesCount()
   }
 
   updateFavoriteButton() {
     const favoriteBtn = document.getElementById("favorite-btn-detail")
-    if (favoriteBtn && this.favorites.includes(this.product.id)) {
+    const productId = this.getConsistentProductId(this.product)
+    if (favoriteBtn && this.favorites.includes(productId)) {
       favoriteBtn.classList.add("active")
     }
   }
@@ -582,6 +603,36 @@ class ProductDetailApp {
         document.body.removeChild(notification)
       }, 300)
     }, 3000)
+  }
+
+  updateFavoritesCount() {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+    const countElement = document.getElementById("favorites-count")
+    if (countElement) {
+      countElement.textContent = favorites.length
+    }
+  }
+
+  // Agregar la función para obtener ID consistente
+  getConsistentProductId(producto) {
+    // Si el producto tiene un ID real, usarlo
+    if (producto.id) {
+      return String(producto.id)
+    }
+
+    // Si no tiene ID, crear uno basado en propiedades únicas del producto
+    // Usar una combinación de propiedades que sea única y consistente
+    const uniqueString = `${producto.nombre || "unnamed"}_${producto.marca || "nobrand"}_${producto.codigo || "nocode"}_${producto.precio || "0"}`
+
+    // Crear un hash simple del string único
+    let hash = 0
+    for (let i = 0; i < uniqueString.length; i++) {
+      const char = uniqueString.charCodeAt(i)
+      hash = (hash << 5) - hash + char
+      hash = hash & hash // Convert to 32bit integer
+    }
+
+    return `product_${Math.abs(hash)}`
   }
 }
 

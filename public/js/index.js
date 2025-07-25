@@ -206,12 +206,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return product
   }
 
+  // Actualizar la función createBasicProduct para usar IDs consistentes
   function createBasicProduct(article, code, index) {
     const productTitle = article.querySelector(".product--title")?.textContent || "CASIO"
     const productImage = article.querySelector(".product--img img")?.src || ""
 
-    return {
-      id: `index_product_${index}`,
+    const product = {
+      id: null, // No tiene ID real
       nombre: code,
       marca: productTitle,
       codigo: code,
@@ -227,6 +228,30 @@ document.addEventListener("DOMContentLoaded", () => {
       alto: 50,
       grosor: 15,
     }
+
+    return product
+  }
+
+  // Agregar función para obtener ID consistente (igual que en otros archivos)
+  function getConsistentProductId(producto) {
+    // Si el producto tiene un ID real, usarlo
+    if (producto.id) {
+      return String(producto.id)
+    }
+
+    // Si no tiene ID, crear uno basado en propiedades únicas del producto
+    // Usar una combinación de propiedades que sea única y consistente
+    const uniqueString = `${producto.nombre || "unnamed"}_${producto.marca || "nobrand"}_${producto.codigo || "nocode"}_${producto.precio || "0"}`
+
+    // Crear un hash simple del string único
+    let hash = 0
+    for (let i = 0; i < uniqueString.length; i++) {
+      const char = uniqueString.charCodeAt(i)
+      hash = (hash << 5) - hash + char
+      hash = hash & hash // Convert to 32bit integer
+    }
+
+    return `product_${Math.abs(hash)}`
   }
 
   function getCategory(brand) {

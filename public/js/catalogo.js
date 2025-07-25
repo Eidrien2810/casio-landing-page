@@ -42,7 +42,7 @@ const colorMapping = {
 // Application state
 let productos = []
 let productosFiltrados = []
-let favorites = []
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]") // Cargar desde localStorage
 let selectedColor = null
 let isSearching = false
 
@@ -203,6 +203,7 @@ class CatalogoApp {
     this.handleBrandSeriesChange()
   }
 
+  // Cambiar la función renderProductos para usar un ID consistente
   renderProductos(productos) {
     if (!productosContainer) return
 
@@ -210,10 +211,10 @@ class CatalogoApp {
 
     if (!productos || productos.length === 0) {
       productosContainer.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
-          <p>No se encontraron productos con los filtros seleccionados.</p>
-        </div>
-      `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+        <p>No se encontraron productos con los filtros seleccionados.</p>
+      </div>
+    `
       return
     }
 
@@ -225,30 +226,75 @@ class CatalogoApp {
       const displayBrand = producto.marca || "CASIO"
       const displayName = producto.nombre || "Sin nombre"
 
-      const productId = producto.id || `temp_${productos.indexOf(producto)}`
+      // Usar un ID consistente basado en el array completo de productos, no el filtrado
+      const productId = this.getConsistentProductId(producto)
+
+      // Verificar si está en favoritos
+      const isFavorite = favorites.includes(productId)
 
       card.innerHTML = `
-  <div class="product-image-container" onclick="catalogoApp.openProductDetail('${productId}')">
-    <img src="${producto.imagen_principal || "https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image"}" 
-         alt="${displayName}" 
-         class="product-image"
-         onerror="this.src='https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image'">
-    <button class="favorite-btn" onclick="event.stopPropagation(); catalogoApp.toggleFavorite('${productId}')">
-      <svg class="favorite-icon" viewBox="0 0 24 24">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-      </svg>
-    </button>
-    ${Math.random() > 0.6 ? '<div class="new-badge">NEW</div>' : ""}
-  </div>
-  <div class="product-info" onclick="catalogoApp.openProductDetail('${productId}')">
-    <div class="product-brand">${displayBrand.toUpperCase()}</div>
-    <div class="product-model">${displayName}</div>
-  </div>
+<div class="product-image-container" onclick="catalogoApp.openProductDetail('${productId}')">
+  <img src="${producto.imagen_principal || "https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image"}" 
+       alt="${displayName}" 
+       class="product-image"
+       onerror="this.src='https://via.placeholder.com/300x300/f8f9fa/333?text=No+Image'">
+  <button class="favorite-btn ${isFavorite ? "active" : ""}" onclick="event.stopPropagation(); catalogoApp.toggleFavorite('${productId}')">
+    <svg class="favorite-icon" viewBox="0 0 24 24" fill="${isFavorite ? "currentColor" : "none"}" stroke="currentColor">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    </svg>
+  </button>
+  ${Math.random() > 0.6 ? '<div class="new-badge">NEW</div>' : ""}
+</div>
+<div class="product-info" onclick="catalogoApp.openProductDetail('${productId}')">
+  <div class="product-brand">${displayBrand.toUpperCase()}</div>
+  <div class="product-model">${displayName}</div>
+</div>
 `
       productosContainer.appendChild(card)
     })
 
     console.log(`Productos renderizados: ${productos.length}`)
+  }
+
+  // Agregar nueva función para obtener ID consistente
+  getConsistentProductId(producto) {
+    // Si el producto tiene un ID real, usarlo
+    if (producto.id) {
+      return String(producto.id)
+    }
+
+    // Si no tiene ID, crear uno basado en propiedades únicas del producto
+    // Usar una combinación de propiedades que sea única y consistente
+    const uniqueString = `${producto.nombre || "unnamed"}_${producto.marca || "nobrand"}_${producto.codigo || "nocode"}_${producto.precio || "0"}`
+
+    // Crear un hash simple del string único
+    let hash = 0
+    for (let i = 0; i < uniqueString.length; i++) {
+      const char = uniqueString.charCodeAt(i)
+      hash = (hash << 5) - hash + char
+      hash = hash & hash // Convert to 32bit integer
+    }
+
+    return `product_${Math.abs(hash)}`
+  }
+
+  // Actualizar la función openProductDetail para usar el nuevo sistema
+  openProductDetail(productId) {
+    let producto
+
+    // Buscar el producto por ID consistente
+    producto = productos.find((p) => this.getConsistentProductId(p) === String(productId))
+
+    if (!producto) {
+      console.error("Producto no encontrado:", productId)
+      return
+    }
+
+    // Guardar el producto en localStorage para la página de detalles
+    localStorage.setItem("selectedProduct", JSON.stringify(producto))
+
+    // Navegar a la página de detalles
+    window.location.href = "producto-detalle.html"
   }
 
   filtrarProductos() {
@@ -425,11 +471,23 @@ class CatalogoApp {
 
   // Filter methods
   toggleFavorite(productId) {
+    // Asegurar que tenemos los favoritos más recientes
+    favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+
     if (favorites.includes(productId)) {
       favorites = favorites.filter((id) => id !== productId)
+      console.log("Producto eliminado de favoritos:", productId)
     } else {
       favorites.push(productId)
+      console.log("Producto agregado a favoritos:", productId)
     }
+
+    // Guardar en localStorage
+    localStorage.setItem("favorites", JSON.stringify(favorites))
+    console.log("Favoritos actualizados:", favorites)
+
+    // Actualizar UI
+    this.updateFavoritesCount()
     this.renderProductos(productosFiltrados)
   }
 
@@ -518,6 +576,9 @@ class CatalogoApp {
   }
 
   setupEventListeners() {
+    // Cargar favoritos desde localStorage al inicializar
+    this.loadFavoritesFromStorage()
+
     // Filter event listeners
     if (filtroMarca) {
       filtroMarca.addEventListener("change", (e) => {
@@ -618,30 +679,15 @@ class CatalogoApp {
         this.hideSearchResults()
       }
     })
+
+    // Update favorites count on page load
+    this.updateFavoritesCount()
   }
 
-  openProductDetail(productId) {
-    let producto
-
-    // Si es un ID temporal, buscar por índice
-    if (productId.startsWith("temp_")) {
-      const index = Number.parseInt(productId.replace("temp_", ""))
-      producto = productosFiltrados[index]
-    } else {
-      // Buscar por ID normal
-      producto = productos.find((p) => String(p.id) === String(productId))
-    }
-
-    if (!producto) {
-      console.error("Producto no encontrado:", productId)
-      return
-    }
-
-    // Guardar el producto en localStorage para la página de detalles
-    localStorage.setItem("selectedProduct", JSON.stringify(producto))
-
-    // Navegar a la página de detalles
-    window.location.href = "producto-detalle.html"
+  loadFavoritesFromStorage() {
+    favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+    console.log("Favoritos cargados desde localStorage:", favorites)
+    this.updateFavoritesCount()
   }
 }
 

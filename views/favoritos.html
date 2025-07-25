@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Favoritos - CASIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../public/css/favoritos.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="logo">CASIO</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="catalogo.html">Watches</a></li>
+                    <li><a href="#">Electronic Musical Instruments</a></li>
+                    <li><a href="#">Calculators</a></li>
+                    <li><a href="#">Label Printers</a></li>
+                    <li><a href="#">NEWS</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="search-box">
+                    <form id="search-form">
+                        <input type="text" id="search-input" class="search-input" placeholder="Buscar en favoritos..." autocomplete="off">
+                        <button type="submit" class="search-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <button class="favorites-btn" onclick="window.location.href='favoritos.html'">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="favorites-count" id="favorites-count">0</span>
+                </button>
+                <button class="back-btn" onclick="window.history.back()">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Volver
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="../index.html">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="catalogo.html">Catálogo</a>
+            <span class="breadcrumb-separator">></span>
+            <span>Mis Favoritos</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="favorites-header">
+            <div class="favorites-title">
+                <h1>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Mis Favoritos
+                </h1>
+                <p class="favorites-subtitle" id="favorites-subtitle">Tus relojes guardados</p>
+            </div>
+            <div class="favorites-actions">
+                <button class="btn-secondary" id="clear-all-btn">
+                    <span class="material-symbols-outlined">delete_sweep</span>
+                    Limpiar Todo
+                </button>
+                <button class="btn-primary" onclick="window.location.href='catalogo.html'">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                    Continuar Comprando
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-container" id="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Cargando favoritos...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state">
+            <div class="empty-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </div>
+            <h2>No tienes favoritos aún</h2>
+            <p>Explora nuestro catálogo y guarda los relojes que más te gusten</p>
+            <button class="btn-primary" onclick="window.location.href='catalogo.html'">
+                <span class="material-symbols-outlined">explore</span>
+                Explorar Catálogo
+            </button>
+        </div>
+
+        <!-- Favorites Grid -->
+        <div class="favorites-container" id="favorites-container">
+            <div class="favorites-filters">
+                <div class="filter-group">
+                    <label for="sort-select">Ordenar por:</label>
+                    <select id="sort-select" class="sort-select">
+                        <option value="recent">Agregados recientemente</option>
+                        <option value="name">Nombre A-Z</option>
+                        <option value="brand">Marca</option>
+                        <option value="price-low">Precio: Menor a Mayor</option>
+                        <option value="price-high">Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid" title="Vista en cuadrícula">
+                        <span class="material-symbols-outlined">grid_view</span>
+                    </button>
+                    <button class="view-btn" data-view="list" title="Vista en lista">
+                        <span class="material-symbols-outlined">view_list</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="favorites-grid" id="favorites-grid">
+                <!-- Favorite products will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations-section" id="recommendations-section">
+            <h3>También te podría interesar</h3>
+            <div class="recommendations-grid" id="recommendations-grid">
+                <!-- Recommended products will be populated here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Confirmar acción</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">¿Estás seguro de que quieres realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn-danger" id="confirm-btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../public/js/favoritos.js"></script>
+</body>
+</html>
