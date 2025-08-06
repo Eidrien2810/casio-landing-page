@@ -37,10 +37,7 @@ body {
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #0066cc;
-  text-decoration: none;
+  max-width: 10vmax;
 }
 
 .nav-menu {
@@ -692,7 +689,7 @@ body {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 920px) {
   .nav-menu {
     display: none;
   }
@@ -753,11 +750,13 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 604px) {
   .main-content {
     padding: 20px 16px;
   }
-
+  .search-box {
+    display: none;
+  }
   .favorites-title h1 {
     font-size: 24px;
   }

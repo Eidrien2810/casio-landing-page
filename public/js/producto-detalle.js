@@ -44,7 +44,9 @@ class ProductDetailApp {
   async loadAllProducts() {
     try {
       console.log("Cargando todos los productos...")
-      const response = await fetch("./public/assets/json/relojes_listos_para_sql.json")
+      const url = "/public/assets/json/relojes_listos_para_sql.json"
+      console.log("Intentando cargar desde:", url)
+      const response = await fetch(url)
       if (!response.ok) throw new Error("Error al cargar productos")
 
       this.allProducts = await response.json()
@@ -102,8 +104,8 @@ class ProductDetailApp {
     if (availability) {
       const status = availability.querySelector(".availability-status")
       if (status) {
-        status.textContent = this.product.stock > 0 ? "En stock" : "Agotado"
-        status.style.color = this.product.stock > 0 ? "#28a745" : "#dc3545"
+        status.textContent = "En stock"
+        status.style.color = "#28a745"
       }
     }
   }
@@ -548,7 +550,10 @@ class ProductDetailApp {
     }
 
     if (favoriteBtn) {
-      favoriteBtn.addEventListener("click", () => this.toggleFavorite())
+      favoriteBtn.addEventListener("click", (e) => {
+        e.stopPropagation() // Prevenir que el evento se propague al contenedor padre
+        this.toggleFavorite()
+      })
     }
 
     // Close modal on escape key

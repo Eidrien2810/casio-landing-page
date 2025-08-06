@@ -238,8 +238,8 @@ class CartApp {
     // Calculate shipping (free over $50)
     this.shipping = this.subtotal >= 50 ? 0 : 9.99
 
-    // Calculate taxes (8.5%)
-    this.taxes = this.subtotal * 0.085
+    // Calculate taxes (18%)
+    this.taxes = this.subtotal * 0.18
 
     // Apply discount if promo code is active
     let discountAmount = 0
