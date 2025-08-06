@@ -421,9 +421,10 @@ class CatalogoApp {
     } else {
       resultsContainer.innerHTML = results
         .slice(0, 8)
-        .map(
-          (producto) => `
-          <div class="search-result-item" onclick="catalogoApp.selectSearchResult('${producto.id || Math.random()}')">
+        .map((producto) => {
+          const productId = this.getConsistentProductId(producto)
+          return `
+          <div class="search-result-item" onclick="catalogoApp.selectSearchResult('${productId}')">
             <img src="${producto.imagen_principal || "https://via.placeholder.com/40x40/f8f9fa/333?text=No+Image"}" 
                  alt="${producto.nombre}" 
                  class="search-result-image"
@@ -433,34 +434,30 @@ class CatalogoApp {
               <div class="search-result-name">${this.highlightSearchTerm(producto.nombre || "Sin nombre", filtros.search)}</div>
             </div>
           </div>
-        `,
-        )
+        `
+        })
         .join("")
     }
 
     resultsContainer.style.display = "block"
   }
 
-  hideSearchResults() {
-    const resultsContainer = document.getElementById("search-results")
-    if (resultsContainer) {
-      resultsContainer.style.display = "none"
-    }
-  }
-
   selectSearchResult(productId) {
     this.hideSearchResults()
-    // Scroll to the product in the grid
-    const productCards = document.querySelectorAll(".product-card")
-    productCards.forEach((card) => {
-      if (card.innerHTML.includes(productId)) {
-        card.scrollIntoView({ behavior: "smooth", block: "center" })
-        card.style.boxShadow = "0 8px 25px rgba(0, 123, 204, 0.3)"
-        setTimeout(() => {
-          card.style.boxShadow = ""
-        }, 2000)
-      }
-    })
+
+    // Navegar directamente a la página de detalle del producto
+    const producto = productos.find((p) => this.getConsistentProductId(p) === String(productId))
+
+    if (!producto) {
+      console.error("Producto no encontrado:", productId)
+      return
+    }
+
+    // Guardar el producto en localStorage para la página de detalles
+    localStorage.setItem("selectedProduct", JSON.stringify(producto))
+
+    // Navegar a la página de detalles
+    window.location.href = "producto-detalle.html"
   }
 
   highlightSearchTerm(text, term) {
@@ -579,6 +576,9 @@ class CatalogoApp {
     // Cargar favoritos desde localStorage al inicializar
     this.loadFavoritesFromStorage()
 
+    // Update cart count on page load
+    this.updateCartCount()
+
     // Filter event listeners
     if (filtroMarca) {
       filtroMarca.addEventListener("change", (e) => {
@@ -688,6 +688,23 @@ class CatalogoApp {
     favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
     console.log("Favoritos cargados desde localStorage:", favorites)
     this.updateFavoritesCount()
+  }
+
+  updateFavoritesCount() {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+    const countElement = document.getElementById("favorites-count")
+    if (countElement) {
+      countElement.textContent = favorites.length
+    }
+  }
+
+  updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]")
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+    const countElement = document.getElementById("cart-count")
+    if (countElement) {
+      countElement.textContent = totalItems
+    }
   }
 }
 

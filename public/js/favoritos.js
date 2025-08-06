@@ -17,6 +17,7 @@ class FavoritesApp {
     await this.loadProducts()
     this.setupEventListeners()
     this.updateFavoritesCount()
+    this.updateCartCount() // Agregar esta línea
     this.renderFavorites()
     this.loadRecommendations()
   }
@@ -329,6 +330,7 @@ class FavoritesApp {
     }
 
     localStorage.setItem("cart", JSON.stringify(cartItems))
+    this.updateCartCount() // Agregar esta línea
     this.showNotification("Producto agregado al carrito", "success")
   }
 
@@ -509,6 +511,15 @@ class FavoritesApp {
         document.body.removeChild(notification)
       }, 300)
     }, 3000)
+  }
+
+  updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]")
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+    const countElement = document.getElementById("cart-count")
+    if (countElement) {
+      countElement.textContent = totalItems
+    }
   }
 }
 

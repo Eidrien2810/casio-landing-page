@@ -15,7 +15,8 @@ class ProductDetailApp {
     await this.loadProduct()
     this.setupEventListeners()
     this.setupTabs()
-    this.updateFavoritesCount() // Agregar esta línea
+    this.updateFavoritesCount()
+    this.updateCartCount() // Agregar esta línea
   }
 
   async loadProduct() {
@@ -42,10 +43,12 @@ class ProductDetailApp {
 
   async loadAllProducts() {
     try {
-      const response = await fetch("../public/assets/json/relojes_listos_para_sql.json")
+      console.log("Cargando todos los productos...")
+      const response = await fetch("./public/assets/json/relojes_listos_para_sql.json")
       if (!response.ok) throw new Error("Error al cargar productos")
 
       this.allProducts = await response.json()
+      console.log("Productos cargados:", this.allProducts.length)
     } catch (error) {
       console.error("Error al cargar todos los productos:", error)
       this.allProducts = []
@@ -282,32 +285,68 @@ class ProductDetailApp {
   }
 
   renderRelatedProducts() {
+    console.log("Renderizando productos relacionados...")
     const relatedGrid = document.getElementById("related-products-grid")
-    if (!relatedGrid || !this.allProducts) return
+    console.log("Related grid element:", relatedGrid)
+    console.log("All products:", this.allProducts)
+    
+    if (!relatedGrid || !this.allProducts) {
+      console.log("No se puede renderizar productos relacionados - faltan datos")
+      return
+    }
 
     // Filter related products by same category
     const relatedProducts = this.allProducts
-      .filter((p) => p.id !== this.product.id && p.id_categoria === this.product.id_categoria)
+      .filter((p) => p.nombre !== this.product.nombre && p.id_categoria === this.product.id_categoria)
       .slice(0, 4)
+    
+    console.log("Productos relacionados encontrados:", relatedProducts.length)
+    console.log("Categoría del producto actual:", this.product.id_categoria)
 
     relatedGrid.innerHTML = ""
 
-    relatedProducts.forEach((product) => {
-      const card = document.createElement("div")
-      card.className = "related-product-card"
-      card.onclick = () => this.openRelatedProduct(product)
+    if (relatedProducts.length === 0) {
+      // Si no hay productos relacionados, mostrar algunos productos de la misma categoría
+      const fallbackProducts = this.allProducts
+        .filter((p) => p.id_categoria === this.product.id_categoria)
+        .slice(0, 4)
+      
+      console.log("Usando productos de respaldo:", fallbackProducts.length)
+      
+      fallbackProducts.forEach((product) => {
+        const card = document.createElement("div")
+        card.className = "related-product-card"
+        card.onclick = () => this.openRelatedProduct(product)
 
-      card.innerHTML = `
-        <img src="${product.imagen_principal || "https://via.placeholder.com/200x200/f8f9fa/333?text=No+Image"}" 
-             alt="${product.nombre}" 
-             class="related-product-image"
-             onerror="this.src='https://via.placeholder.com/200x200/f8f9fa/333?text=No+Image'">
-        <div class="related-product-name">${product.nombre || "Producto"}</div>
-        <div class="related-product-price">${this.formatPrice(product.precio)}</div>
-      `
+        card.innerHTML = `
+          <img src="${product.imagen_principal || "https://via.placeholder.com/200x200/f8f9fa/333?text=No+Image"}" 
+               alt="${product.nombre}" 
+               class="related-product-image"
+               onerror="this.src='https://via.placeholder.com/200x200/f8f9fa/333?text=No+Image'">
+          <div class="related-product-name">${product.nombre || "Producto"}</div>
+          <div class="related-product-price">${this.formatPrice(product.precio)}</div>
+        `
 
-      relatedGrid.appendChild(card)
-    })
+        relatedGrid.appendChild(card)
+      })
+    } else {
+      relatedProducts.forEach((product) => {
+        const card = document.createElement("div")
+        card.className = "related-product-card"
+        card.onclick = () => this.openRelatedProduct(product)
+
+        card.innerHTML = `
+          <img src="${product.imagen_principal || "https://via.placeholder.com/200x200/f8f9fa/333?text=No+Image"}" 
+               alt="${product.nombre}" 
+               class="related-product-image"
+               onerror="this.src='https://via.placeholder.com/200x200/f8f9fa/333?text=No+Image'">
+          <div class="related-product-name">${product.nombre || "Producto"}</div>
+          <div class="related-product-price">${this.formatPrice(product.precio)}</div>
+        `
+
+        relatedGrid.appendChild(card)
+      })
+    }
   }
 
   openRelatedProduct(product) {
@@ -360,14 +399,15 @@ class ProductDetailApp {
 
   addToCart() {
     const cartItems = JSON.parse(localStorage.getItem("cart") || "[]")
+    const productId = this.getConsistentProductId(this.product)
 
-    const existingItem = cartItems.find((item) => item.id === this.product.id)
+    const existingItem = cartItems.find((item) => item.id === productId)
 
     if (existingItem) {
       existingItem.quantity += this.quantity
     } else {
       cartItems.push({
-        id: this.product.id,
+        id: productId,
         name: this.product.nombre,
         price: this.product.precio,
         image: this.product.imagen_principal,
@@ -376,6 +416,7 @@ class ProductDetailApp {
     }
 
     localStorage.setItem("cart", JSON.stringify(cartItems))
+    this.updateCartCount()
 
     // Show success message
     this.showNotification("Producto agregado al carrito", "success")
@@ -633,6 +674,15 @@ class ProductDetailApp {
     }
 
     return `product_${Math.abs(hash)}`
+  }
+
+  updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]")
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+    const countElement = document.getElementById("cart-count")
+    if (countElement) {
+      countElement.textContent = totalItems
+    }
   }
 }
 

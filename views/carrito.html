@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - CASIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../public/css/carrito.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="catalogo.html" class="logo">CASIO</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="catalogo.html">Watches</a></li>
+                    <li><a href="#">Electronic Musical Instruments</a></li>
+                    <li><a href="#">Calculators</a></li>
+                    <li><a href="#">Label Printers</a></li>
+                    <li><a href="#">NEWS</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <button class="favorites-btn" onclick="window.location.href='favoritos.html'" title="Mis Favoritos">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="favorites-count" id="favorites-count">0</span>
+                </button>
+                <button class="cart-btn active" onclick="window.location.href='carrito.html'" title="Carrito de Compras">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="m1 1 4 4 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <button class="back-btn" onclick="window.history.back()">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Volver
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="breadcrumb-content">
+            <a href="../index.html">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="catalogo.html">Catálogo</a>
+            <span class="breadcrumb-separator">></span>
+            <span>Carrito de Compras</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="cart-header">
+            <div class="cart-title">
+                <h1>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="m1 1 4 4 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    Carrito de Compras
+                </h1>
+                <p class="cart-subtitle" id="cart-subtitle">Tus productos seleccionados</p>
+            </div>
+            <div class="cart-actions">
+                <button class="btn-secondary" id="clear-cart-btn">
+                    <span class="material-symbols-outlined">delete_sweep</span>
+                    Vaciar Carrito
+                </button>
+                <button class="btn-primary" onclick="window.location.href='catalogo.html'">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                    Continuar Comprando
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-container" id="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Cargando carrito...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state">
+            <div class="empty-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="m1 1 4 4 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+            </div>
+            <h2>Tu carrito está vacío</h2>
+            <p>Explora nuestro catálogo y agrega los relojes que más te gusten</p>
+            <button class="btn-primary" onclick="window.location.href='catalogo.html'">
+                <span class="material-symbols-outlined">explore</span>
+                Explorar Catálogo
+            </button>
+        </div>
+
+        <!-- Cart Container -->
+        <div class="cart-container" id="cart-container">
+            <div class="cart-content">
+                <!-- Cart Items -->
+                <div class="cart-items-section">
+                    <div class="cart-items-header">
+                        <h3>Productos en tu carrito</h3>
+                        <span class="items-count" id="items-count">0 productos</span>
+                    </div>
+                    <div class="cart-items" id="cart-items">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary-section">
+                    <div class="cart-summary">
+                        <h3>Resumen del pedido</h3>
+                        
+                        <div class="summary-line">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-line">
+                            <span>Envío:</span>
+                            <span id="shipping">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-line">
+                            <span>Impuestos:</span>
+                            <span id="taxes">$0.00</span>
+                        </div>
+                        
+                        <div class="summary-line discount-line" id="discount-line">
+                            <span>Descuento:</span>
+                            <span id="discount">-$0.00</span>
+                        </div>
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-total">
+                            <span>Total:</span>
+                            <span id="total">$0.00</span>
+                        </div>
+
+                        <!-- Promo Code -->
+                        <div class="promo-code-section">
+                            <div class="promo-code-input">
+                                <input type="text" id="promo-code" placeholder="Código de descuento">
+                                <button class="btn-secondary" id="apply-promo">Aplicar</button>
+                            </div>
+                            <div class="promo-message" id="promo-message"></div>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <button class="btn-checkout" id="checkout-btn">
+                            <span class="material-symbols-outlined">payment</span>
+                            Proceder al Pago
+                        </button>
+
+                        <!-- Security Info -->
+                        <div class="security-info">
+                            <div class="security-item">
+                                <span class="material-symbols-outlined">lock</span>
+                                <span>Pago 100% seguro</span>
+                            </div>
+                            <div class="security-item">
+                                <span class="material-symbols-outlined">local_shipping</span>
+                                <span>Envío gratis en compras +$50</span>
+                            </div>
+                            <div class="security-item">
+                                <span class="material-symbols-outlined">autorenew</span>
+                                <span>30 días para devoluciones</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <div class="recommendations-section" id="recommendations-section">
+            <h3>También te podría interesar</h3>
+            <div class="recommendations-grid" id="recommendations-grid">
+                <!-- Recommended products will be populated here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Confirmar acción</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">¿Estás seguro de que quieres realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn-danger" id="confirm-btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal checkout-modal">
+            <div class="modal-header">
+                <h3>Finalizar Compra</h3>
+                <button class="modal-close" onclick="closeCheckoutModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="checkout-form">
+                    <div class="form-section">
+                        <h4>Información de Contacto</h4>
+                        <div class="form-group">
+                            <input type="email" id="checkout-email" placeholder="Email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Dirección de Envío</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="checkout-firstname" placeholder="Nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="checkout-lastname" placeholder="Apellido" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="checkout-address" placeholder="Dirección" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="checkout-city" placeholder="Ciudad" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="checkout-zip" placeholder="Código Postal" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Método de Pago</h4>
+                        <div class="payment-methods">
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="card" checked>
+                                <span>Tarjeta de Crédito/Débito</span>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="paypal">
+                                <span>PayPal</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="checkout-card" placeholder="Número de tarjeta" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="checkout-expiry" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="checkout-cvv" placeholder="CVV" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeCheckoutModal()">Cancelar</button>
+                <button class="btn-primary" id="complete-order">
+                    <span class="material-symbols-outlined">payment</span>
+                    Completar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../public/js/carrito.js"></script>
+</body>
+</html>
